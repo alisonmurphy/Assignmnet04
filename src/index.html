@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Garden</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  
+<app-root></app-root>
+<h2>User Sign Up</h2>
+<php if (isset($error)) { ?>
+    <p>
+        <php echo $error; ?>
+    </p>
+    <php } elseif (isset($success)) { ?>
+        <p>
+            <php echo $success; ?>
+        </p>
+        <php } ?>
+
+            <form method="POST" action="">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br><br>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+
+                <input type="submit" value="Sign Up">
+            </form>
+
+            <h2>User Login</h2>
+
+            <php if (isset($error)) { ?>
+                <p>
+                    <php echo $error; ?>
+                </p>
+                <php } elseif (isset($success)) { ?>
+                    <p>
+                        <php echo $success; ?>
+                    </p>
+                    <php } ?>
+
+                        <form method="POST" action="">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" required><br><br>
+
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" required><br><br>
+
+                            <input type="submit" value="Log In">
+                        </form>
+
+  <script>
+    function search() {
+      var input = document.getElementById("searchInput").value.toLowerCase();
+      var questions = document.getElementsByClassName("question");
+
+      for (var i = 0; i < questions.length; i++) {
+        var question = questions[i].textContent.toLowerCase();
+        if (question.includes(input)) {
+          questions[i].style.display = "block";
+        } else {
+          questions[i].style.display = "none";
+        }
+      }
+    }
+
+  </script>
+
+  <h2>We might have already answered a question you're looking for</h2>
+
+
+  <input type="text" id="searchInput" placeholder="Find your question">
+  <button id="searchButton" onclick="search()">Search</button>
+
+  <h2>FAQ</h2>
+  <div class="question">
+    <h4>How much will my project cost?</h4>
+    <p>Home renovations can be expensive but since you plan to do most the work yourself it will cutdown on costs.
+      Kitchen's tend to take the biggest chunk of the budget, followed by bathrooms. it also depends then on your
+      landsaping wants.</p>
+  </div>
+  <br>
+  <div class="question">
+    <h4>What are the latest trends in home renovation?</h4>
+    <p>I always tell my clients not to follow trends as they come in and out so quickly and it is not cheap to have to
+      redo your home in five years time. </p>
+  </div>
+  <br>
+  <div class="question">
+    <h4>Should I hire a contractor or do it myself?</h4>
+    <p> It depends on several factors such as your skills, experience, time availability, and the complexity of the
+      project. For major renovations or projects requiring specialised skills, it's generally recommended to hire a
+      licensed and experienced contractor. However, smaller projects or ones within your expertise can be done yourself,
+      provided you have the necessary knowledge and tools.</p>
+  </div>
+  <br>
+  <div class="question">
+    <h4>How long does a typical home renovation project take?</h4>
+    <p> The duration of a home renovation project depends on the scope and complexity of the work. Small projects such
+      as painting or flooring replacement can be completed in a few days to weeks. Larger renovations like kitchen
+      remodels or whole-house renovations can take several weeks to months. It's essential to discuss the timeline with
+      your contractor and account for any potential delays.</p>
+  </div>
+  <br>
+  <br>
+  <h1>Ask a Question</h1>
+
+  <form id="questionForm">
+    <label for="question">Ask an expert a question:</label>
+    <textarea id="question" required></textarea>
+
+    <input type="submit" value="Submit" onclick="submitQuestion()">
+  </form>
+
+  <h2>Questions</h2>
+  <div id="questionList"></div>
+  <script>
+    function submitQuestion() {
+      var question = document.getElementById("question").value;
+
+
+      var newQuestion = document.createElement("div");
+      newQuestion.classList.add("question");
+      newQuestion.innerHTML = `
+                <p>${question}</p>
+                <button class="upvote-button" onclick="upvoteAnswer(this)">Upvote</button>
+                <span class="upvote-count">0</span>
+                <div class="comments"></div>
+                <div class="add-comment">
+                    <textarea placeholder="Expert Answer"></textarea>
+                    <button class="comment-button" onclick="addComment(this)">Comment</button>
+                </div>
+            `;
+
+      // Add the new question to the page
+      var questionList = document.getElementById("questionList");
+      questionList.appendChild(newQuestion);
+
+      // Reset the form
+      document.getElementById("questionForm").reset();
+    }
+
+    function upvoteAnswer(button) {
+      var upvoteCount = button.nextElementSibling;
+      var currentCount = parseInt(upvoteCount.textContent);
+      upvoteCount.textContent = currentCount + 1;
+    }
+
+    function addComment(button) {
+      var commentTextArea = button.previousElementSibling;
+      var commentText = commentTextArea.value;
+
+
+
+      if (commentText.trim() === "") {
+        alert("Please enter a comment.");
+        return;
+      }
+
+      var commentDiv = document.createElement("div");
+      commentDiv.classList.add("comment");
+      commentDiv.innerHTML = "<p>" + commentText + "</p>";
+
+      var commentSection = button.parentNode.parentNode.querySelector(".comments");
+      commentSection.appendChild(commentDiv);
+
+      commentTextArea.value = "";
+    }
+  </script>
+
+</body>
+
+</html>
